@@ -1,19 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ForestGenerator : MonoBehaviour {
+public class ForestGenerator : MonoBehaviour
+{
 
     GameObject[,] forest;
-    public int size = 20;
+    public float size = 20.0f;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        //Generate();
+    }
 
-        forest = new GameObject[size,size];
+    // Update is called once per frame
+    void Update()
+    {
 
-        for(int i = 0; i < size; i++)
+    }
+
+    public void Generate()
+    {
+        int s = (int)size;
+        forest = new GameObject[s, s];
+
+        for (int i = 0; i < s; i++)
         {
-            for(int j = 0; j < size; j++)
+            for (int j = 0; j < s; j++)
             {
                 GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 obj.transform.position = new Vector3(i, 0, j);
@@ -23,11 +36,12 @@ public class ForestGenerator : MonoBehaviour {
             }
         }
 
-        forest[(int)size/2, (int)size/2].GetComponent<Renderer>().material.color = Color.magenta;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        forest[(int)s / 2, (int)s / 2].GetComponent<Renderer>().material.color = Color.magenta;
+    }
+
+    public void changeSize(float newSize)
+    {
+        size = newSize;
+    }
+
 }
