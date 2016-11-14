@@ -6,11 +6,16 @@ public class ForestGenerator : MonoBehaviour
 
     GameObject[,] forest;
     public float size = 20.0f;
+    public Parameters gameParams;
 
     // Use this for initialization
     void Start()
     {
         //Generate();
+        if (Parameters.instance == null)
+        {
+            Instantiate(gameParams);
+        }
     }
 
     // Update is called once per frame
@@ -31,7 +36,7 @@ public class ForestGenerator : MonoBehaviour
                 GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 obj.transform.position = new Vector3(i, 0, j);
                 obj.transform.parent = this.transform;
-                Field f = obj.AddComponent<Field>();
+                obj.AddComponent<Field>();
                 forest[i, j] = obj;
             }
         }

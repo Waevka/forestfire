@@ -14,7 +14,7 @@ public class Field : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        density = (float)Random.Range(50, 255) / 255;
+        density = Parameters.density * (float)Random.Range(50, 255) / 255;
         fireIntensity = (float)Random.Range(0, 100) / 20;
         this.color.g = density;
         //Debug.Log(this.color.g);
@@ -32,6 +32,7 @@ public class Field : MonoBehaviour {
         fire.transform.localScale = fireSize * fireIntensity;
         fire.GetComponent<Renderer>().material.color = this.fireColor;
         trees.transform.localScale = treeSize * (3.0f * density);
+        
 
     }
 
