@@ -14,7 +14,7 @@ public class ForestGenerator : MonoBehaviour
         //Generate();
         if (Parameters.instance == null)
         {
-            Instantiate(gameParams);
+            gameParams = new Parameters();
         }
     }
 
@@ -25,7 +25,7 @@ public class ForestGenerator : MonoBehaviour
     }
 
     public void Generate()
-    {
+    {   
         int s = (int)size;
         forest = new GameObject[s, s];
 
@@ -33,8 +33,9 @@ public class ForestGenerator : MonoBehaviour
         {
             for (int j = 0; j < s; j++)
             {
+                float yPos = ((float)Random.Range(0, 100) / 100) * Parameters.terrainType;
                 GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                obj.transform.position = new Vector3(i, 0, j);
+                obj.transform.position = new Vector3(i, yPos, j);
                 obj.transform.parent = this.transform;
                 obj.AddComponent<Field>();
                 forest[i, j] = obj;

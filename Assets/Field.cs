@@ -28,7 +28,7 @@ public class Field : MonoBehaviour {
         fire = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         fire.transform.parent = this.trees.transform;
         fire.transform.position = this.trees.transform.position + new Vector3(0,6,0);
-        fireSize = fire.transform.localScale + new Vector3(0.5f, 1, 0);
+        fireSize = fire.transform.localScale + new Vector3(0.5f, 0.8f, 0);
         fire.transform.localScale = fireSize * fireIntensity;
         fire.GetComponent<Renderer>().material.color = this.fireColor;
         trees.transform.localScale = treeSize * (3.0f * density);
@@ -43,6 +43,8 @@ public class Field : MonoBehaviour {
             fireIntensity -= 0.01f;
             fire.transform.localScale = fireSize * fireIntensity;
             trees.transform.localScale *= 0.995f;
+            this.color.g = density *= 0.995f;
+            this.gameObject.GetComponent<Renderer>().material.color = this.color;
         }
 	}
 }

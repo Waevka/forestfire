@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Parameters : MonoBehaviour {
 
     public static Parameters instance = null;
     public static float density = 0.75f;
+    public static int terrainType = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -26,5 +28,9 @@ public class Parameters : MonoBehaviour {
     public void updateDensity(float newDensity)
     {
         density = newDensity;
+    }
+    public void updateTerrain(int newTerrain)
+    {
+        terrainType = newTerrain;
     }
 }
