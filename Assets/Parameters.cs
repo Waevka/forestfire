@@ -7,6 +7,7 @@ public class Parameters : MonoBehaviour {
     public static Parameters instance = null;
     public static float density = 0.75f;
     public static int terrainType = 0;
+    public static int forestType = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -32,5 +33,9 @@ public class Parameters : MonoBehaviour {
     public void updateTerrain(int newTerrain)
     {
         terrainType = newTerrain;
+    }
+    public void updateForestType(int newType)
+    {
+        forestType = newType;
     }
 }

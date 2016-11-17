@@ -7,15 +7,26 @@ public class ForestGenerator : MonoBehaviour
     GameObject[,] forest;
     public float size = 20.0f;
     public Parameters gameParams;
+    public GameObject firePrefab;
+    public GameObject fieldPrefab;
+
+    /// 
+    public float density;
+    ///
 
     // Use this for initialization
     void Start()
     {
+
+        GameObject dumb = (GameObject)Instantiate(fieldPrefab, this.transform.position, Quaternion.identity);
+        dumb.transform.localPosition += new Vector3(5, 2, 5);
         //Generate();
         if (Parameters.instance == null)
         {
             gameParams = new Parameters();
         }
+        density = 10.0f;
+        size = 20;
     }
 
     // Update is called once per frame
@@ -48,6 +59,11 @@ public class ForestGenerator : MonoBehaviour
     public void changeSize(float newSize)
     {
         size = newSize;
+    }
+
+    public void changeDensity(float newDensity)
+    {
+        density = newDensity;
     }
 
 }

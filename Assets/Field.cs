@@ -7,8 +7,9 @@ public class Field : MonoBehaviour {
     Color fireColor = new Color32(240, 70, 70, 1);
     Vector3 fireSize = new Vector3(0.5f, 1, 0);
     Vector3 treeSize = new Vector3(0.1f, 0.1f, 0.1f);
-    GameObject trees;
-    GameObject fire;
+    public GameObject trees;
+    public GameObject fire;
+    GameObject newFire;
     float density;
     float fireIntensity;
 
@@ -32,8 +33,8 @@ public class Field : MonoBehaviour {
         fire.transform.localScale = fireSize * fireIntensity;
         fire.GetComponent<Renderer>().material.color = this.fireColor;
         trees.transform.localScale = treeSize * (3.0f * density);
-        
 
+       
     }
 
     // Update is called once per frame
