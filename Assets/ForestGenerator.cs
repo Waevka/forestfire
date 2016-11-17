@@ -3,30 +3,29 @@ using System.Collections;
 
 public class ForestGenerator : MonoBehaviour
 {
-
+    
     GameObject[,] forest;
-    public float size = 20.0f;
-    public Parameters gameParams;
     public GameObject firePrefab;
     public GameObject fieldPrefab;
 
     /// 
+    public float size = 20.0f; //TODO: change to int
     public float density;
+    public int terrainType;
+    public int forestType;
     ///
 
     // Use this for initialization
     void Start()
     {
+        density = 0.75f;
+        terrainType = 0;
+        forestType = 0;
+        size = 20;
 
         GameObject dumb = (GameObject)Instantiate(fieldPrefab, this.transform.position, Quaternion.identity);
         dumb.transform.localPosition += new Vector3(5, 2, 5);
         //Generate();
-        if (Parameters.instance == null)
-        {
-            gameParams = new Parameters();
-        }
-        density = 10.0f;
-        size = 20;
     }
 
     // Update is called once per frame
@@ -38,22 +37,26 @@ public class ForestGenerator : MonoBehaviour
     public void Generate()
     {   
         int s = (int)size;
+        
+        if (this.forest != null) {
+            foreach (GameObject o in forest)
+            {
+              Destroy(o);
+            }
+        };
+
         forest = new GameObject[s, s];
 
         for (int i = 0; i < s; i++)
         {
             for (int j = 0; j < s; j++)
             {
-                float yPos = ((float)Random.Range(0, 100) / 100) * Parameters.terrainType;
-                GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                obj.transform.position = new Vector3(i, yPos, j);
-                obj.transform.parent = this.transform;
-                obj.AddComponent<Field>();
+                float yPos = ((float)Random.Range(0, 100) / 100) * terrainType;
+                GameObject obj = (GameObject)Instantiate(fieldPrefab, new Vector3(i, yPos, j), Quaternion.identity);
                 forest[i, j] = obj;
             }
         }
 
-        forest[(int)s / 2, (int)s / 2].GetComponent<Renderer>().material.color = Color.magenta;
     }
 
     public void changeSize(float newSize)
@@ -64,6 +67,16 @@ public class ForestGenerator : MonoBehaviour
     public void changeDensity(float newDensity)
     {
         density = newDensity;
+    }
+
+    public void changeTerrain(int newTerrain)
+    {
+        terrainType = newTerrain;
+    }
+
+    public void changeForestType(int newType)
+    {
+        forestType = newType;
     }
 
 }
