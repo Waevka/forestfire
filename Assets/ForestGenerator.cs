@@ -22,9 +22,7 @@ public class ForestGenerator : MonoBehaviour
         terrainType = 0;
         forestType = 0;
         size = 20;
-
-        GameObject dumb = (GameObject)Instantiate(fieldPrefab, this.transform.position, Quaternion.identity);
-        dumb.transform.localPosition += new Vector3(5, 2, 5);
+        
         //Generate();
     }
 
