@@ -8,6 +8,8 @@ public class ForestGenerator : MonoBehaviour
     public GameObject firePrefab;
     public GameObject fieldPrefab;
     public WindZone wind;
+    float[,] heightMap;
+    float[,] densityMap;
 
     /// 
     public float size = 20.0f; //TODO: change to int
@@ -34,7 +36,22 @@ public class ForestGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit = new RaycastHit();
+            bool clicked = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
 
+            if (clicked)
+            {
+                if(hit.transform.gameObject.name == "FTree")
+                {
+                    hit.transform.gameObject.transform.parent.GetComponent<Field>().setIsBurning(true);
+                } else if (hit.transform.gameObject.name == "NewField(Clone)")
+                {
+                    hit.transform.gameObject.GetComponent<Field>().setIsBurning(true);
+                }
+            }
+        }
     }
 
     public void Generate()
@@ -48,16 +65,19 @@ public class ForestGenerator : MonoBehaviour
             }
         };
 
+        fillHeightMap(s, s);
+        fillDensityMap(s, s);
+
         forest = new GameObject[s, s];
 
         for (int i = 0; i < s; i++)
         {
             for (int j = 0; j < s; j++)
             {
-                float yPos = ((float)Random.Range(0, 100) / 100) * terrainType;
+                float yPos = heightMap[i, j] * (terrainType*3+0.3f);
                 GameObject obj = (GameObject)Instantiate(fieldPrefab, new Vector3(i, yPos, j), Quaternion.identity);
-                obj.GetComponent<Field>().setFuel(Random.Range(0f, 1.0f));
-                obj.GetComponent<Field>().setIsBurning(true);
+                obj.GetComponent<Field>().setFuel(densityMap[i,j]);
+                obj.GetComponent<Field>().setIsBurning(false);
                 forest[i, j] = obj;
             }
         }
@@ -119,4 +139,37 @@ public class ForestGenerator : MonoBehaviour
         wind.windMain = windStrength;
     }
 
+    void fillHeightMap(int x, int y)
+    {   
+        float randX = Random.Range(0f, 1.0f) + terrainType*0.1f;
+        float randY = Random.Range(0f, 1.0f) + terrainType*0.1f;
+        heightMap = new float[x, y];
+        for(int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                float height = Mathf.PerlinNoise(randX + i*0.1f, randY + j*0.1f);
+                heightMap[i, j] = height;
+                //Debug.Log(height);
+            }
+        }
+    }
+
+    void fillDensityMap(int x, int y)
+    {
+        float randX = Random.Range(0f, 1.0f);
+        float randY = Random.Range(0f, 1.0f);
+        densityMap = new float[x, y];
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                float densityM = Mathf.PerlinNoise(randX + i, randY + j);
+                if (densityM < 0.01) densityM = 0.0f;
+                if (densityM > 0.99) densityM = 1.0f;
+                densityMap[i, j] = densityM * 2*density;
+                //Debug.Log(density);
+            }
+        }
+    }
 }

@@ -26,7 +26,7 @@ public class Field : MonoBehaviour {
         fireRef = treeRef.transform.FindChild("FFire").gameObject;
         forestGenerator = GameObject.Find("Forest").gameObject.GetComponent<ForestGenerator>();
         treeRef.GetComponent<Renderer>().material.color = Color.cyan;
-        GetComponent<Renderer>().material.color = color;
+        setColor();
         treeRef.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f) * fuel;
     }
 
@@ -68,10 +68,7 @@ public class Field : MonoBehaviour {
     {
         if (isBurning)
         {
-            float g = fuel*100 / 255;
-            color = new Color32(60, 255, 70, 1);
-            color.g = g;
-            GetComponent<Renderer>().material.color = color;
+            setColor();
         }
     }
 
@@ -83,6 +80,15 @@ public class Field : MonoBehaviour {
     public void setFuel(float newFuel)
     {
         fuel = newFuel;
+    }
+
+    void setColor()
+    {
+        float g = fuel;
+        if (fuel < 0.1) g = 0.1f;
+        color = new Color32(60, 255, 70, 1);
+        color.g = g;
+        GetComponent<Renderer>().material.color = color;
     }
 
 }
