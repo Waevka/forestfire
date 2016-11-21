@@ -21,6 +21,11 @@ public class ForestGenerator : MonoBehaviour
     public float windStrength;
     ///
 
+    ///
+    public float burnRate;
+    public float simulationSpeed;
+    ///
+
     // Use this for initialization
     void Start()
     {
@@ -29,6 +34,8 @@ public class ForestGenerator : MonoBehaviour
         forestType = 0;
         size = 20;
         changeWindDirection(0);
+        burnRate = 0.001f;
+        simulationSpeed = 1.0f;
 
         //Generate();
     }
@@ -139,6 +146,15 @@ public class ForestGenerator : MonoBehaviour
         wind.windMain = windStrength;
     }
 
+    public void changeSimulationSpeed(int newSpeed)
+    {
+        if (newSpeed == 0) simulationSpeed = 0.25f;
+        if (newSpeed == 1) simulationSpeed = 0.5f;
+        if (newSpeed == 2) simulationSpeed = 1.0f;
+        if (newSpeed == 3) simulationSpeed = 1.5f;
+        if (newSpeed == 4) simulationSpeed = 2.0f;
+    }
+
     void fillHeightMap(int x, int y)
     {   
         float randX = Random.Range(0f, 1.0f) + terrainType*0.1f;
@@ -171,5 +187,10 @@ public class ForestGenerator : MonoBehaviour
                 //Debug.Log(density);
             }
         }
+    }
+
+    public float getBurnRate()
+    {
+        return burnRate * simulationSpeed;
     }
 }

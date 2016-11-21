@@ -33,10 +33,12 @@ public class Field : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (fuel < 0.1f)
+        if (fuel < 0.01f)
         {
             setIsBurning(false);
         }
+        // calculate
+        UpdateValues();
         // update fire parameters (size, strength, etc)
         UpdateFire();
         // update tree parameters (size, color, etc)
@@ -44,6 +46,14 @@ public class Field : MonoBehaviour {
         // update field parameters (color)
         UpdateField();
 
+    }
+
+    void UpdateValues()
+    {
+        if (isBurning)
+        {
+            fuel -= fuel * forestGenerator.getBurnRate();
+        }
     }
 
     void UpdateTree()
