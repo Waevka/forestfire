@@ -89,6 +89,8 @@ public class ForestGenerator : MonoBehaviour
             }
         }
 
+        Camera.main.transform.position = new Vector3(s * 0.5f, 10 + terrainType + s*0.1f, -5);
+
     }
 
     public void changeSize(float newSize)

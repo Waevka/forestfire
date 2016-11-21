@@ -52,7 +52,7 @@ public class Field : MonoBehaviour {
     {
         if (isBurning)
         {
-            fuel -= fuel * forestGenerator.getBurnRate();
+            fuel -= forestGenerator.getBurnRate();
         }
     }
 
