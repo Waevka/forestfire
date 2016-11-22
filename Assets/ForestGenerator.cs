@@ -43,7 +43,7 @@ public class ForestGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             RaycastHit hit = new RaycastHit();
             bool clicked = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
@@ -52,10 +52,24 @@ public class ForestGenerator : MonoBehaviour
             {
                 if(hit.transform.gameObject.name == "FTree")
                 {
-                    hit.transform.gameObject.transform.parent.GetComponent<Field>().setIsBurning(true);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        hit.transform.gameObject.transform.parent.GetComponent<Field>().setIsBurning(true);
+                    } else if (Input.GetMouseButtonDown(1))
+                    {
+                        GameObject.Find("FieldInfoCanvas").gameObject.GetComponent<FieldInfoScript>().setCurrentObject(
+                            hit.transform.gameObject.transform.parent.GetComponent<Field>());
+                    }
                 } else if (hit.transform.gameObject.name == "NewField(Clone)")
                 {
-                    hit.transform.gameObject.GetComponent<Field>().setIsBurning(true);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        hit.transform.gameObject.GetComponent<Field>().setIsBurning(true);
+                    } else if (Input.GetMouseButtonDown(1))
+                    {
+                        GameObject.Find("FieldInfoCanvas").gameObject.GetComponent<FieldInfoScript>().setCurrentObject(
+                            hit.transform.gameObject.GetComponent<Field>());
+                    }
                 }
             }
         }
