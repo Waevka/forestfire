@@ -24,6 +24,9 @@ public class ForestGenerator : MonoBehaviour
     ///
     public float burnRate;
     public float simulationSpeed;
+    public float combustionTemp;
+    public float airTemp;
+    public float exchangeRate;
     ///
 
     // Use this for initialization
@@ -36,6 +39,9 @@ public class ForestGenerator : MonoBehaviour
         changeWindDirection(0);
         burnRate = 0.001f;
         simulationSpeed = 1.0f;
+        combustionTemp = 250.0f;
+        airTemp = 20.0f;
+        exchangeRate = 0.1f;
 
         //Generate();
     }
@@ -55,6 +61,7 @@ public class ForestGenerator : MonoBehaviour
                     if (Input.GetMouseButtonDown(0))
                     {
                         hit.transform.gameObject.transform.parent.GetComponent<Field>().setIsBurning(true);
+                        hit.transform.gameObject.transform.parent.GetComponent<Field>().temp = combustionTemp;
                     } else if (Input.GetMouseButtonDown(1))
                     {
                         GameObject.Find("FieldInfoCanvas").gameObject.GetComponent<FieldInfoScript>().setCurrentObject(
@@ -65,6 +72,7 @@ public class ForestGenerator : MonoBehaviour
                     if (Input.GetMouseButtonDown(0))
                     {
                         hit.transform.gameObject.GetComponent<Field>().setIsBurning(true);
+                        hit.transform.gameObject.GetComponent<Field>().temp = combustionTemp;
                     } else if (Input.GetMouseButtonDown(1))
                     {
                         GameObject.Find("FieldInfoCanvas").gameObject.GetComponent<FieldInfoScript>().setCurrentObject(
@@ -97,8 +105,10 @@ public class ForestGenerator : MonoBehaviour
             {
                 float yPos = heightMap[i, j] * (terrainType*3+0.3f);
                 GameObject obj = (GameObject)Instantiate(fieldPrefab, new Vector3(i, yPos, j), Quaternion.identity);
+                obj.GetComponent<Field>().setXY(i, j);
                 obj.GetComponent<Field>().setFuel(densityMap[i,j]);
                 obj.GetComponent<Field>().setIsBurning(false);
+                obj.GetComponent<Field>().temp = airTemp;
                 forest[i, j] = obj;
             }
         }
@@ -208,5 +218,21 @@ public class ForestGenerator : MonoBehaviour
     public float getBurnRate()
     {
         return burnRate * simulationSpeed;
+    }
+
+    public float getExchangeRate()
+    {
+        return exchangeRate * simulationSpeed;
+    }
+
+    public float getTempAtXY(int _x, int _y)
+    {
+        if(_x < 0 || _y < 0 || _x >= (int)size || _y >= (int)size)
+        {
+            return airTemp;
+        } else
+        {
+            return forest[_x, _y].GetComponent<Field>().temp;
+        }
     }
 }

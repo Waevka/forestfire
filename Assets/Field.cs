@@ -8,15 +8,21 @@ public class Field : MonoBehaviour {
     GameObject treeRef;
     GameObject fireRef;
 
+    int x;
+    int y;
+
     public float fuel;
+    public float temp;
     Color color;
 
     public bool isBurning;
+    public bool burned;
 
     void Awake() {
         fuel = 0.5f;
         color = new Color32(60, 255, 70, 1);
         isBurning = false; // false
+        burned = false;
     }
 
 	// Use this for initialization
@@ -36,6 +42,7 @@ public class Field : MonoBehaviour {
         if (fuel < 0.01f)
         {
             setIsBurning(false);
+            burned = true;
         }
         // calculate
         UpdateValues();
@@ -53,7 +60,31 @@ public class Field : MonoBehaviour {
         if (isBurning)
         {
             fuel -= forestGenerator.getBurnRate();
+            temp = forestGenerator.combustionTemp + forestGenerator.getBurnRate()*fuel*300000;/*energia drewna*/;
+        } else
+        {
+            if (temp >= forestGenerator.combustionTemp && !burned) isBurning = true;
         }
+        if (!burned)
+        {
+            float eR = forestGenerator.getExchangeRate();
+            // calculate cellular automata
+            // [1][2][3]
+            // [4][ ][5]
+            // [6][7][8]
+            //float T1 = forestGenerator.getTempAtXY(x - 1, y - 1);
+            float T2 = forestGenerator.getTempAtXY(x    , y - 1);
+            //float T3 = forestGenerator.getTempAtXY(x + 1, y - 1);
+            float T4 = forestGenerator.getTempAtXY(x - 1, y    );
+            float T5 = forestGenerator.getTempAtXY(x + 1, y    );
+            //float T6 = forestGenerator.getTempAtXY(x - 1, y + 1);
+            float T7 = forestGenerator.getTempAtXY(x    , y + 1);
+            //float T8 = forestGenerator.getTempAtXY(x + 1, y + 1);
+            float newTemp = T2 * eR + T4 * eR + T5 * eR +
+                 T7 * eR - 4 * temp * eR;
+            temp += newTemp;
+        }
+
     }
 
     void UpdateTree()
@@ -99,6 +130,12 @@ public class Field : MonoBehaviour {
         color = new Color32(60, 255, 70, 1);
         color.g = g;
         GetComponent<Renderer>().material.color = color;
+    }
+
+    public void setXY(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
     }
 
 }

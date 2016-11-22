@@ -19,9 +19,9 @@ public class FieldInfoScript : MonoBehaviour {
 	void Update () {
 	    if(currentObject != null)
         {
-            FuelText.text = currentObject.fuel.ToString();
+            FuelText.text = (currentObject.fuel * 100).ToString() + " kg";
             IsBurningText.text = (currentObject.isBurning? "yes" : "no");
-            // temp
+            TempText.text = currentObject.temp.ToString() + "oC";
         }
 	}
 
