@@ -165,12 +165,12 @@ public class ForestGenerator : MonoBehaviour
         if (newDir == 3)
         {
             wind.transform.localRotation = Quaternion.identity;
-            wind.transform.Rotate(Vector3.up * 90);
+            wind.transform.Rotate(Vector3.down * 90);
         }
         if (newDir == 4)
         {
             wind.transform.localRotation = Quaternion.identity;
-            wind.transform.Rotate(Vector3.down * 90);
+            wind.transform.Rotate(Vector3.up * 90);
         }
     }
 

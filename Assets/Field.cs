@@ -43,7 +43,6 @@ public class Field : MonoBehaviour {
         {
             case 0:
                 treeRef.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("BrokenVector\\FreeLowPolyPack\\Models\\Tree Type1 04");
-                Debug.Log("pinee");
                 break;
             case 1:
                 treeRef.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("BrokenVector\\FreeLowPolyPack\\Models\\Tree Type3 04");
@@ -113,8 +112,16 @@ public class Field : MonoBehaviour {
                         }
                         break;
                     case 3:
+                        if (forestGenerator.getIsBurning(x - 1, y))
+                        {
+                            T4 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                        }
                         break;
                     case 4:
+                        if (forestGenerator.getIsBurning(x + 1, y))
+                        {
+                            T5 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                        }
                         break;
                 }
             }
