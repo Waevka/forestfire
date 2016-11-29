@@ -31,9 +31,27 @@ public class Field : MonoBehaviour {
         treeRef = transform.FindChild("FTree").gameObject;
         fireRef = treeRef.transform.FindChild("FFire").gameObject;
         forestGenerator = GameObject.Find("Forest").gameObject.GetComponent<ForestGenerator>();
+        setMesh();
         treeRef.GetComponent<Renderer>().material.color = Color.cyan;
         setColor();
         treeRef.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f) * fuel;
+    }
+
+    void setMesh()
+    {
+        switch (forestGenerator.forestType)
+        {
+            case 0:
+                treeRef.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("BrokenVector\\FreeLowPolyPack\\Models\\Tree Type1 04");
+                Debug.Log("pinee");
+                break;
+            case 1:
+                treeRef.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("BrokenVector\\FreeLowPolyPack\\Models\\Tree Type3 04");
+                break;
+            case 2:
+                treeRef.GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>("BrokenVector\\FreeLowPolyPack\\Models\\Rock Type2 04");
+                break;
+        }
     }
 
     // Update is called once per frame

@@ -127,6 +127,7 @@ public class ForestGenerator : MonoBehaviour
     public void changeSize(float newSize)
     {
         size = newSize;
+        Generate();
     }
 
     public void changeDensity(float newDensity)
@@ -180,7 +181,7 @@ public class ForestGenerator : MonoBehaviour
         wind.windMain = windStrength;
 
     }
-
+    
     public void changeSimulationSpeed(int newSpeed)
     {
         if (newSpeed == 0) simulationSpeed = 0.25f;
