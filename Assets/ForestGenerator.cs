@@ -120,7 +120,7 @@ public class ForestGenerator : MonoBehaviour
             }
         }
 
-        Camera.main.transform.position = new Vector3(s * 0.5f, 10 + terrainType + s*0.1f, -5);
+        Camera.main.transform.position = new Vector3(s * 0.5f, 8 + terrainType + s*0.1f, -5);
 
     }
 
@@ -255,6 +255,22 @@ public class ForestGenerator : MonoBehaviour
         else
         {
             return forest[_x, _y].GetComponent<Field>().isBurning;
+        }
+    }
+
+    // 0-1
+    public float getAreaTouching(int _x1, int _y1, int _x2, int _y2) //1 - to, 2 - from 
+    {
+        if (_x1 < 0 || _y1 < 0 || _x1 >= (int)size || _y1 >= (int)size)
+        {
+            return 1.0f;
+        }
+        else
+        {   
+            float heightTo = forest[_x1, _y1].transform.position.y;
+            float heightFrom = forest[_x2, _y2].transform.position.y;
+            if (heightFrom >= heightTo) { return 1.1f; }
+            else { return terrainType * 3 + 0.3f - heightTo + 0.1f; }
         }
     }
 }

@@ -103,28 +103,57 @@ public class Field : MonoBehaviour {
                         if (forestGenerator.getIsBurning(x, y + 1))
                         {
                             T7 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            //T7 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
                         }
                         break;
                     case 2:
                         if (forestGenerator.getIsBurning(x, y - 1))
                         {
                             T2 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
                         }
                         break;
                     case 3:
                         if (forestGenerator.getIsBurning(x - 1, y))
                         {
                             T4 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            //T4 *= forestGenerator.getAreaTouching(x - 1, y, x, y);
                         }
                         break;
                     case 4:
                         if (forestGenerator.getIsBurning(x + 1, y))
                         {
                             T5 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            //T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
                         }
                         break;
                 }
             }
+
+            //Terrain height
+            if (forestGenerator.getIsBurning(x, y + 1))
+            {
+                T7 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
+            }
+            if (forestGenerator.getIsBurning(x, y - 1))
+            {
+                T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
+            }
+            if (forestGenerator.getIsBurning(x - 1, y))
+            {
+               T4 *= forestGenerator.getAreaTouching(x - 1, y, x, y);
+            }
+            if (forestGenerator.getIsBurning(x + 1, y))
+            {
+                T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
+            }
+            //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
+            // T4 *= forestGenerator.getAreaTouching(x - 1, y, x, y);
+            //T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
+            //T7 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
+
+
+            // Finally
             float newTemp = T2 * eR + T4 * eR + T5 * eR +
                 T7 * eR - 4 * temp * eR;
             temp += newTemp;
