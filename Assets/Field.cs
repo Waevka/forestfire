@@ -72,17 +72,38 @@ public class Field : MonoBehaviour {
             // [1][2][3]
             // [4][ ][5]
             // [6][7][8]
-            //float T1 = forestGenerator.getTempAtXY(x - 1, y - 1);
             float T2 = forestGenerator.getTempAtXY(x    , y - 1);
-            //float T3 = forestGenerator.getTempAtXY(x + 1, y - 1);
             float T4 = forestGenerator.getTempAtXY(x - 1, y    );
             float T5 = forestGenerator.getTempAtXY(x + 1, y    );
-            //float T6 = forestGenerator.getTempAtXY(x - 1, y + 1);
             float T7 = forestGenerator.getTempAtXY(x    , y + 1);
-            //float T8 = forestGenerator.getTempAtXY(x + 1, y + 1);
+            
+            // wind
+            if (forestGenerator.windDirection != 0)
+            {
+                switch (forestGenerator.windDirection)
+                {
+                    case 1:
+                        if (forestGenerator.getIsBurning(x, y + 1))
+                        {
+                            T7 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                        }
+                        break;
+                    case 2:
+                        if (forestGenerator.getIsBurning(x, y - 1))
+                        {
+                            T2 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                        }
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
             float newTemp = T2 * eR + T4 * eR + T5 * eR +
-                 T7 * eR - 4 * temp * eR;
+                T7 * eR - 4 * temp * eR;
             temp += newTemp;
+
         }
 
     }

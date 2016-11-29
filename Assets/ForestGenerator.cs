@@ -13,6 +13,8 @@ public class ForestGenerator : MonoBehaviour
 
     /// 
     public float size = 20.0f; //TODO: change to int
+    public float dx; // m
+    public float h; //s
     public float density;
     public int terrainType;
     public int forestType;
@@ -27,6 +29,7 @@ public class ForestGenerator : MonoBehaviour
     public float combustionTemp;
     public float airTemp;
     public float exchangeRate;
+    public float windSpeed;
     ///
 
     // Use this for initialization
@@ -36,12 +39,16 @@ public class ForestGenerator : MonoBehaviour
         terrainType = 0;
         forestType = 0;
         size = 20;
+        dx = 10.0f;
+        h = 1.0f;
+
         changeWindDirection(0);
         burnRate = 0.001f;
         simulationSpeed = 1.0f;
         combustionTemp = 250.0f;
         airTemp = 20.0f;
         exchangeRate = 0.1f;
+        windSpeed = 3.0f; //0.03m/s
 
         //Generate();
     }
@@ -169,7 +176,9 @@ public class ForestGenerator : MonoBehaviour
     public void changeWindStrength(float newStrength)
     {
         windStrength = newStrength/4;
+        windSpeed = 3.0f * (1-newStrength) / 8; // need to adjust interface values to wind
         wind.windMain = windStrength;
+
     }
 
     public void changeSimulationSpeed(int newSpeed)
@@ -233,6 +242,18 @@ public class ForestGenerator : MonoBehaviour
         } else
         {
             return forest[_x, _y].GetComponent<Field>().temp;
+        }
+    }
+
+    public bool getIsBurning(int _x, int _y)
+    {
+        if (_x < 0 || _y < 0 || _x >= (int)size || _y >= (int)size)
+        {
+            return false;
+        }
+        else
+        {
+            return forest[_x, _y].GetComponent<Field>().isBurning;
         }
     }
 }
