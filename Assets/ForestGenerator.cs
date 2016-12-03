@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class ForestGenerator : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ForestGenerator : MonoBehaviour
     public WindZone wind;
     float[,] heightMap;
     float[,] densityMap;
+    float totalFuelAtStart = 0;
+    float totalFuelCurrent;
 
     /// 
     public float size = 20.0f; //TODO: change to int
@@ -54,6 +57,11 @@ public class ForestGenerator : MonoBehaviour
         //Generate();
     }
 
+    public float getTotalFuelPercent()
+    {
+        return 100.0f * (totalFuelAtStart - totalFuelCurrent)/totalFuelAtStart;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -89,6 +97,20 @@ public class ForestGenerator : MonoBehaviour
                 }
             }
         }
+        countFuel();
+    }
+
+    private void countFuel()
+    {
+        totalFuelCurrent = totalFuelAtStart;
+        if(forest != null)
+        {
+            foreach (GameObject o in forest)
+            {
+                totalFuelCurrent -= o.GetComponent<Field>().fuel;
+            }
+        }
+        
     }
 
     public void Generate()
@@ -112,9 +134,11 @@ public class ForestGenerator : MonoBehaviour
             for (int j = 0; j < s; j++)
             {
                 float yPos = heightMap[i, j] * (terrainType*3+0.3f);
+                //Debug.Log(yPos);
                 GameObject obj = (GameObject)Instantiate(fieldPrefab, new Vector3(i, yPos, j), Quaternion.identity);
                 obj.GetComponent<Field>().setXY(i, j);
                 obj.GetComponent<Field>().setFuel(densityMap[i,j]);
+                totalFuelAtStart += densityMap[i, j];
                 obj.GetComponent<Field>().setIsBurning(false);
                 obj.GetComponent<Field>().temp = airTemp;
                 forest[i, j] = obj;
@@ -209,8 +233,8 @@ public class ForestGenerator : MonoBehaviour
 
     void fillHeightMap(int x, int y)
     {   
-        float randX = Random.Range(0f, 1.0f) + terrainType*0.1f;
-        float randY = Random.Range(0f, 1.0f) + terrainType*0.1f;
+        float randX = UnityEngine.Random.Range(0f, 1.0f) + terrainType*0.1f;
+        float randY = UnityEngine.Random.Range(0f, 1.0f) + terrainType*0.1f;
         heightMap = new float[x, y];
         for(int i = 0; i < x; i++)
         {
@@ -225,8 +249,8 @@ public class ForestGenerator : MonoBehaviour
 
     void fillDensityMap(int x, int y)
     {
-        float randX = Random.Range(0f, 1.0f);
-        float randY = Random.Range(0f, 1.0f);
+        float randX = UnityEngine.Random.Range(0f, 1.0f);
+        float randY = UnityEngine.Random.Range(0f, 1.0f);
         densityMap = new float[x, y];
         for (int i = 0; i < x; i++)
         {
@@ -285,8 +309,11 @@ public class ForestGenerator : MonoBehaviour
         {   
             float heightTo = forest[_x1, _y1].transform.position.y;
             float heightFrom = forest[_x2, _y2].transform.position.y;
-            if (heightFrom >= heightTo) { return 1.1f; }
-            else { return terrainType * 3 + 0.3f - heightTo + 0.1f; }
+            float diff = 1.0f + forest[_x2, _y2].transform.position.y - forest[_x1, _y1].transform.position.y;
+            if (diff < 0) return exchangeRate * diff;
+            else return 0.01f;
+            //return terrainType * 3 + 0.3f - heightTo + 0.1f;
+            
         }
     }
 }

@@ -8,6 +8,7 @@ public class FieldInfoScript : MonoBehaviour {
     public Text FuelText;
     public Text TempText;
     public Text IsBurningText;
+    public Text fuelPercent;
     public Field currentObject;
 
 	// Use this for initialization
@@ -22,6 +23,7 @@ public class FieldInfoScript : MonoBehaviour {
             FuelText.text = (currentObject.fuel * 100).ToString() + " kg";
             IsBurningText.text = (currentObject.isBurning? "yes" : "no");
             TempText.text = currentObject.temp.ToString() + "oC";
+            fuelPercent.text = currentObject.getTotalFuelPercent() + "%";
         }
 	}
 
