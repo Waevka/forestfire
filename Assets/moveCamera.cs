@@ -11,13 +11,13 @@ public class moveCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKey("right"))
-            transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime);
+            transform.Translate(new Vector3(2, 0, 0) * Time.deltaTime);
         if (Input.GetKey("left"))
-            transform.Translate(new Vector3(-1, 0, 0) * Time.deltaTime);
+            transform.Translate(new Vector3(-2, 0, 0) * Time.deltaTime);
         if (Input.GetKey("up"))
-            transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime);
+            transform.Translate(new Vector3(0, 1, 1) * Time.deltaTime);
         if (Input.GetKey("down"))
-            transform.Translate(new Vector3(0, 0, -1) * Time.deltaTime);
+            transform.Translate(new Vector3(0, -2, -2) * Time.deltaTime);
 
     }
 }

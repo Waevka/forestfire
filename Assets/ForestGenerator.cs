@@ -30,6 +30,7 @@ public class ForestGenerator : MonoBehaviour
     public float airTemp;
     public float exchangeRate;
     public float windSpeed;
+    public float humidity;
     ///
 
     // Use this for initialization
@@ -44,7 +45,7 @@ public class ForestGenerator : MonoBehaviour
 
         changeWindDirection(0);
         burnRate = 0.001f;
-        simulationSpeed = 1.0f;
+        simulationSpeed = 0.25f;
         combustionTemp = 250.0f;
         airTemp = 20.0f;
         exchangeRate = 0.1f;
@@ -143,6 +144,21 @@ public class ForestGenerator : MonoBehaviour
     public void changeForestType(int newType)
     {
         forestType = newType;
+        switch (forestType)
+        {
+            case 0:
+                burnRate = 0.001f;
+                combustionTemp = 250.0f;
+                break;
+            case 1:
+                burnRate = 0.0005f;
+                combustionTemp = 280f;
+                break;
+            case 2:
+                combustionTemp = 220.0f;
+                burnRate = 0.001f;
+                break;
+        }
     }
 
     public void changeWindDirection(int newDir)
@@ -176,19 +192,19 @@ public class ForestGenerator : MonoBehaviour
 
     public void changeWindStrength(float newStrength)
     {
-        windStrength = newStrength/4;
-        windSpeed = 3.0f * (1-newStrength) / 8; // need to adjust interface values to wind
+        windStrength = newStrength/8; // 0 - 1 
+        windSpeed = 3.0f * windStrength * 2; // need to adjust interface values to wind
         wind.windMain = windStrength;
 
     }
     
     public void changeSimulationSpeed(int newSpeed)
     {
-        if (newSpeed == 0) simulationSpeed = 0.25f;
-        if (newSpeed == 1) simulationSpeed = 0.5f;
-        if (newSpeed == 2) simulationSpeed = 1.0f;
-        if (newSpeed == 3) simulationSpeed = 1.5f;
-        if (newSpeed == 4) simulationSpeed = 2.0f;
+        if (newSpeed == 0) simulationSpeed = 0.06f;
+        if (newSpeed == 1) simulationSpeed = 0.12f;
+        if (newSpeed == 2) simulationSpeed = 0.25f;
+        if (newSpeed == 3) simulationSpeed = 0.5f;
+        if (newSpeed == 4) simulationSpeed = 1.0f;
     }
 
     void fillHeightMap(int x, int y)
