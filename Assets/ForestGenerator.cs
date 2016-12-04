@@ -47,7 +47,7 @@ public class ForestGenerator : MonoBehaviour
         h = 1.0f;
 
         changeWindDirection(0);
-        burnRate = 0.001f;
+        burnRate = 0.01f;
         simulationSpeed = 0.25f;
         combustionTemp = 250.0f;
         airTemp = 20.0f;

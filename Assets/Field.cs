@@ -13,7 +13,7 @@ public class Field : MonoBehaviour {
     int y;
 
     public float fuel;
-    public float energy = 300000;
+    public float energy = 30000;
     public float temp;
 
     public float T2;
@@ -80,7 +80,7 @@ public class Field : MonoBehaviour {
         switch (forestGenerator.forestType)
         {
             case 0:
-                energy = 300000;
+                energy = 30000;
                 break;
             case 1:
                 energy = 250000;
@@ -115,17 +115,20 @@ public class Field : MonoBehaviour {
                 setIsBurning(true);
             }
         }
+
+        eR = forestGenerator.getExchangeRate();
+        // calculate cellular automata
+        // [1][2][3]
+        // [4][ ][5]
+        // [6][7][8]
+        T2 = forestGenerator.getTempAtXY(x, y + 1);
+        T4 = forestGenerator.getTempAtXY(x - 1, y);
+        T5 = forestGenerator.getTempAtXY(x + 1, y);
+        T7 = forestGenerator.getTempAtXY(x, y - 1);
+
         if (!burned)
         {
-            eR = forestGenerator.getExchangeRate();
-            // calculate cellular automata
-            // [1][2][3]
-            // [4][ ][5]
-            // [6][7][8]
-            T2 = forestGenerator.getTempAtXY(x, y + 1);
-            T4 = forestGenerator.getTempAtXY(x - 1, y);
-            T5 = forestGenerator.getTempAtXY(x + 1, y);
-            T7 = forestGenerator.getTempAtXY(x, y - 1);
+        
 
             // wind
             if (forestGenerator.windDirection != 0)
@@ -161,7 +164,10 @@ public class Field : MonoBehaviour {
                         }
                         break;
                 }
+
+
             }
+
 
             //Terrain height
             /*
@@ -188,12 +194,21 @@ public class Field : MonoBehaviour {
 
 
             // Finally
+
+
             tempOut = -(4 * temp * eR);
             newTemp = T2 * eR + T4 * eR + T5 * eR +
                 T7 * eR - 4 * temp * eR;
             temp += newTemp;
 
+        } else
+        {
+            tempOut = -(4 * temp * eR);
+            newTemp = 4 * 20 * eR - 4 * temp * eR;
+            temp += newTemp;
         }
+
+        
 
     }
 
