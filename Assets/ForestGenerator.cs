@@ -129,6 +129,8 @@ public class ForestGenerator : MonoBehaviour
 
         forest = new GameObject[s, s];
 
+        totalFuelAtStart = 0;
+
         for (int i = 0; i < s; i++)
         {
             for (int j = 0; j < s; j++)

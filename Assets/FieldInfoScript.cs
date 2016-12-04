@@ -9,6 +9,13 @@ public class FieldInfoScript : MonoBehaviour {
     public Text TempText;
     public Text IsBurningText;
     public Text fuelPercent;
+    public Text T2;
+    public Text T4;
+    public Text T5;
+    public Text T7;
+    public Text eR;
+    public Text newTemp;
+    public Text outTemp;
     public Field currentObject;
 
 	// Use this for initialization
@@ -24,6 +31,13 @@ public class FieldInfoScript : MonoBehaviour {
             IsBurningText.text = (currentObject.isBurning? "yes" : "no");
             TempText.text = currentObject.temp.ToString() + "oC";
             fuelPercent.text = currentObject.getTotalFuelPercent() + "%";
+            T2.text = currentObject.T2.ToString();
+            T4.text = currentObject.T4.ToString();
+            T5.text = currentObject.T5.ToString();
+            T7.text = currentObject.T7.ToString();
+            eR.text = currentObject.eR.ToString();
+            newTemp.text = currentObject.newTemp.ToString();
+            outTemp.text = currentObject.tempOut.ToString();
         }
 	}
 

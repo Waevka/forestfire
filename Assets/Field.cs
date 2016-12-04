@@ -15,6 +15,15 @@ public class Field : MonoBehaviour {
     public float fuel;
     public float energy = 300000;
     public float temp;
+
+    public float T2;
+    public float T4;
+    public float T5;
+    public float T7;
+    public float newTemp;
+    public float eR;
+    public float tempOut;
+
     Color color;
 
     public bool isBurning;
@@ -97,23 +106,26 @@ public class Field : MonoBehaviour {
         if (isBurning)
         {
             fuel -= forestGenerator.getBurnRate();
-            temp = forestGenerator.combustionTemp + forestGenerator.getBurnRate() * fuel * energy;/*energia drewna*/;
+            temp += forestGenerator.getBurnRate() * fuel * energy;/*energia drewna*/;
         }
         else
         {
-            if (temp >= forestGenerator.combustionTemp && !burned) isBurning = true;
+            if (temp >= forestGenerator.combustionTemp && !burned)
+            {
+                setIsBurning(true);
+            }
         }
         if (!burned)
         {
-            float eR = forestGenerator.getExchangeRate();
+            eR = forestGenerator.getExchangeRate();
             // calculate cellular automata
             // [1][2][3]
             // [4][ ][5]
             // [6][7][8]
-            float T2 = forestGenerator.getTempAtXY(x, y - 1);
-            float T4 = forestGenerator.getTempAtXY(x - 1, y);
-            float T5 = forestGenerator.getTempAtXY(x + 1, y);
-            float T7 = forestGenerator.getTempAtXY(x, y + 1);
+            T2 = forestGenerator.getTempAtXY(x, y + 1);
+            T4 = forestGenerator.getTempAtXY(x - 1, y);
+            T5 = forestGenerator.getTempAtXY(x + 1, y);
+            T7 = forestGenerator.getTempAtXY(x, y - 1);
 
             // wind
             if (forestGenerator.windDirection != 0)
@@ -121,14 +133,14 @@ public class Field : MonoBehaviour {
                 switch (forestGenerator.windDirection)
                 {
                     case 1:
-                        if (forestGenerator.getIsBurning(x, y + 1))
+                        if (forestGenerator.getIsBurning(x, y - 1))
                         {
                             T7 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
                             //T7 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
                         }
                         break;
                     case 2:
-                        if (forestGenerator.getIsBurning(x, y - 1))
+                        if (forestGenerator.getIsBurning(x, y + 1))
                         {
                             T2 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
                             //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
@@ -152,13 +164,14 @@ public class Field : MonoBehaviour {
             }
 
             //Terrain height
-            if (forestGenerator.getIsBurning(x, y + 1))
-            {
-                T7 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
-            }
+            /*
             if (forestGenerator.getIsBurning(x, y - 1))
             {
-                T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
+                T7 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
+            }
+            if (forestGenerator.getIsBurning(x, y + 1))
+            {
+                T2 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
             }
             if (forestGenerator.getIsBurning(x - 1, y))
             {
@@ -167,7 +180,7 @@ public class Field : MonoBehaviour {
             if (forestGenerator.getIsBurning(x + 1, y))
             {
                 T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
-            }
+            }*/
             //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
             // T4 *= forestGenerator.getAreaTouching(x - 1, y, x, y);
             //T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
@@ -175,7 +188,8 @@ public class Field : MonoBehaviour {
 
 
             // Finally
-            float newTemp = T2 * eR + T4 * eR + T5 * eR +
+            tempOut = -(4 * temp * eR);
+            newTemp = T2 * eR + T4 * eR + T5 * eR +
                 T7 * eR - 4 * temp * eR;
             temp += newTemp;
 
@@ -212,6 +226,7 @@ public class Field : MonoBehaviour {
     public void setIsBurning(bool newIsBurning)
     {
         isBurning = newIsBurning;
+        if (newIsBurning == true) temp = forestGenerator.combustionTemp;
     }
 
     public void setFuel(float newFuel)
