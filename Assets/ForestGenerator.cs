@@ -318,6 +318,10 @@ public class ForestGenerator : MonoBehaviour
         {
             return 1.0f;
         }
+        if(terrainType == 0)
+        {
+            return 1.0f;
+        }
         else
         {
             float heightTo = forest[_x1, _y1].transform.position.y;
