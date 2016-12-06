@@ -27,6 +27,7 @@ public class Field : MonoBehaviour {
     public float ratio;
 
     Color color;
+    Color color3;
 
     public bool isBurning;
     public bool burned;
@@ -34,6 +35,7 @@ public class Field : MonoBehaviour {
     void Awake() {
         fuel = 0.5f;
         color = new Color32(60, 255, 70, 1);
+        color3 = new Color32(100, 255, 70, 1);
         isBurning = false; // false
         burned = false;
     }
@@ -267,9 +269,18 @@ public class Field : MonoBehaviour {
     {
         float g = fuel;
         if (fuel < 0.1) g = 0.1f;
-        color = new Color32(60, 255, 70, 1);
-        color.g = g;
-        GetComponent<Renderer>().material.color = color;
+
+        if (forestGenerator.forestType == 2)
+        {
+            color3 = new Color32(100, 255, 70, 1);
+            color3.g = g;
+            GetComponent<Renderer>().material.color = color3;
+        } else
+        {
+            color = new Color32(60, 255, 70, 1);
+            color.g = g;
+            GetComponent<Renderer>().material.color = color;
+        }
     }
 
     public void setXY(int _x, int _y)

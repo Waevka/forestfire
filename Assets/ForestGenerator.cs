@@ -13,6 +13,7 @@ public class ForestGenerator : MonoBehaviour
     float[,] densityMap;
     float totalFuelAtStart = 0;
     float totalFuelCurrent;
+    public GameObject slider;
 
     /// 
     public float size = 20.0f; //TODO: change to int
@@ -193,8 +194,18 @@ public class ForestGenerator : MonoBehaviour
                 break;
             case 2:
                 combustionTemp = 220.0f;
-                burnRate = 0.001f;
+                burnRate = 0.002f;
                 break;
+        }
+        if(newType == 0)
+        {
+            slider.GetComponent<UnityEngine.UI.Slider>().normalizedValue = 1;
+        } else if (newType == 1)
+        {
+            slider.GetComponent<UnityEngine.UI.Slider>().normalizedValue = 2;
+        } else
+        {
+            slider.GetComponent<UnityEngine.UI.Slider>().normalizedValue = 0;
         }
     }
 
