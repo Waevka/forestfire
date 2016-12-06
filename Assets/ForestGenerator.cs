@@ -36,6 +36,17 @@ public class ForestGenerator : MonoBehaviour
     public float humidity;
     ///
 
+    public float u_ambient_temperature = 300.0f; //# K
+    public float u_flame_temperature = 1000.0f; //# K
+    public float u_velocity = 0.003f; //# m / s
+    public float u_dx = 0.001f; //# m
+    //size = 200 //# grid units
+    //positions = dx* numpy.arange(size) //# m
+    public float u_h = 0.01f; //# s
+    public float end_time = 10.0f; //# s
+    //public float num_steps = int(end_time / h);
+
+
     // Use this for initialization
     void Start()
     {
@@ -46,7 +57,7 @@ public class ForestGenerator : MonoBehaviour
         dx = 10.0f;
         h = 1.0f;
 
-        changeWindDirection(0);
+        changeWindDirection(2);
         burnRate = 0.01f;
         simulationSpeed = 0.25f;
         combustionTemp = 250.0f;

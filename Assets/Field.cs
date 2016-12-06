@@ -23,6 +23,8 @@ public class Field : MonoBehaviour {
     public float newTemp;
     public float eR;
     public float tempOut;
+    public float windSpeed;
+    public float ratio;
 
     Color color;
 
@@ -117,6 +119,10 @@ public class Field : MonoBehaviour {
         }
 
         eR = forestGenerator.getExchangeRate();
+        float eRT2 = forestGenerator.getExchangeRate();
+        float eRT4 = forestGenerator.getExchangeRate();
+        float eRT5 = forestGenerator.getExchangeRate();
+        float eRT6 = forestGenerator.getExchangeRate();
         // calculate cellular automata
         // [1][2][3]
         // [4][ ][5]
@@ -126,28 +132,35 @@ public class Field : MonoBehaviour {
         T5 = forestGenerator.getTempAtXY(x + 1, y);
         T7 = forestGenerator.getTempAtXY(x, y - 1);
 
+        windSpeed = forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+
         if (!burned)
         {
-        
-
+            
             // wind
             if (forestGenerator.windDirection != 0)
             {
                 switch (forestGenerator.windDirection)
                 {
                     case 1:
-                        if (forestGenerator.getIsBurning(x, y - 1))
+                        if (forestGenerator.getIsBurning(x, y + 1))
                         {
-                            T7 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            
+                            T2 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            
                             //T7 *= forestGenerator.getAreaTouching(x, y + 1, x, y);
                         }
                         break;
                     case 2:
-                        if (forestGenerator.getIsBurning(x, y + 1))
+                        if (forestGenerator.getIsBurning(x, y - 1))
                         {
-                            T2 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            float oldT2 = T2;
+                            T7 *= forestGenerator.simulationSpeed * forestGenerator.windSpeed / forestGenerator.dx * 4;
+                            ratio = oldT2/T2;
                             //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
                         }
+
+                        //T2 *= 0.5f;
                         break;
                     case 3:
                         if (forestGenerator.getIsBurning(x - 1, y))
@@ -186,7 +199,8 @@ public class Field : MonoBehaviour {
             if (forestGenerator.getIsBurning(x + 1, y))
             {
                 T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
-            }*/
+            }
+            */
             //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
             // T4 *= forestGenerator.getAreaTouching(x - 1, y, x, y);
             //T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);

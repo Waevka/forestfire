@@ -16,6 +16,7 @@ public class FieldInfoScript : MonoBehaviour {
     public Text eR;
     public Text newTemp;
     public Text outTemp;
+    public Text windSpeed;
     public Field currentObject;
 
 	// Use this for initialization
@@ -38,6 +39,7 @@ public class FieldInfoScript : MonoBehaviour {
             eR.text = currentObject.eR.ToString();
             newTemp.text = currentObject.newTemp.ToString();
             outTemp.text = currentObject.tempOut.ToString();
+            windSpeed.text = currentObject.windSpeed.ToString();
         }
 	}
 
