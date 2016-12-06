@@ -319,13 +319,24 @@ public class ForestGenerator : MonoBehaviour
             return 1.0f;
         }
         else
-        {   
+        {
             float heightTo = forest[_x1, _y1].transform.position.y;
             float heightFrom = forest[_x2, _y2].transform.position.y;
-            float diff = 1.0f + forest[_x2, _y2].transform.position.y - forest[_x1, _y1].transform.position.y;
+            if (heightTo > heightFrom) {
+                return 0.8f;
+            } else if (heightTo < heightFrom)
+            {
+                return 1.5f;
+            } else
+            {
+                return 1.0f;
+            }
+
+            /*float diff = 1.0f + forest[_x2, _y2].transform.position.y - forest[_x1, _y1].transform.position.y;
             if (diff < 0) return exchangeRate * diff;
             else return 0.01f;
-            //return terrainType * 3 + 0.3f - heightTo + 0.1f;
+    */        
+    //return terrainType * 3 + 0.3f - heightTo + 0.1f;
             
         }
     }

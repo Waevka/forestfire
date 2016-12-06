@@ -183,7 +183,7 @@ public class Field : MonoBehaviour {
 
 
             //Terrain height
-            /*
+            
             if (forestGenerator.getIsBurning(x, y - 1))
             {
                 T7 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
@@ -200,7 +200,7 @@ public class Field : MonoBehaviour {
             {
                 T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
             }
-            */
+            
             //T2 *= forestGenerator.getAreaTouching(x, y - 1, x, y);
             // T4 *= forestGenerator.getAreaTouching(x - 1, y, x, y);
             //T5 *= forestGenerator.getAreaTouching(x + 1, y, x, y);
